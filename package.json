@@ -1,0 +1,22 @@
+{
+  "name": "tiny-frontend.github.io",
+  "version": "1.0.0",
+  "description": "documentation for tiny frontend",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiny-frontend/tiny-frontend.github.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tiny-frontend/tiny-frontend.github.io/issues"
+  },
+  "homepage": "https://github.com/tiny-frontend/tiny-frontend.github.io#readme",
+  "devDependencies": {
+    "vuepress": "^2.0.0-beta.35"
+  }
+}
