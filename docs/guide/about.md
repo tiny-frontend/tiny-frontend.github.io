@@ -4,6 +4,7 @@
 
 ### 👍 What tiny frontend is
 
+- **a npm package** pulling its **latest deployed implementation** at **runtime**
 - An example of implementation of a micro frontend architecture
 - Aimed at solving "vertical" slicing
 
