@@ -6,11 +6,12 @@
 
 - **a npm package** pulling its **latest deployed implementation** at **runtime**
 - An example of implementation of a micro frontend architecture
-- Aimed at solving "vertical" slicing
+- Aimed at solving "horizontal" slicing
 
 ### 🙅‍ What tiny frontend isn't
 
 - The One True Way to micro frontend
+- Aimed at solving "vertical" slicing
 
 ## Philosophy
 
