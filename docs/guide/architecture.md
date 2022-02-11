@@ -127,7 +127,7 @@ This piece of HTML will:
 Once on the client side, before calling `ReactDOM.hydrate`, you need to call `loadTinyFrontendClient`.
 This will load and evaluate the UMD bundle based on the config exposed on window.
 
-Then, when React will rehydrate the page, your tiny frontend will already be loaded and the component will get rehydrated ✨ !
+Then, when `React` will rehydrate the page, your tiny frontend will already be loaded and the component will get rehydrated ✨ !
 
 :::warning
 Loading a tiny frontend on server side requires an environment that support runtime JS source evaluation (`new Function(source)`).
@@ -136,3 +136,81 @@ This is currently [not supported on Cloudflare Workers](https://developers.cloud
 
 You can however still use the client side only version in that case.
 :::
+
+## Example Remix Host
+
+This is just regular Node.js Remix app that have the Example Tiny Frontend `contract` as an npm dependency.
+
+As everything is better explained with a meme:
+
+<p style="text-align: center">
+<img alt="" src="/images/docs/consume-tiny-fe-meme.jpg" width="450" />
+</p>
+
+### Client side only
+
+To consume the example tiny frontend on client side, [we simply load it in a `useEffect`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/client-side-only.tsx#L20) by calling `loadExampleTinyFrontendClient` and passing the URL of our `tiny-api`.
+
+While the tiny frontend is loading, we show a `Loading...` label.
+
+When the tiny frontend is loaded, we set the component we receive in a `useState`.
+We then simply renders it like any other `React` component 🐰 .
+
+### Server side (SSR) with client side rehydration
+
+This is a bit more involved, but still rather straightforward.
+
+#### On the server
+
+In [`entry.server.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.server.tsx#L13) by calling `loadExampleTinyFrontendServer` before rendering happens.
+
+We then [use the server side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L6).
+
+In [`root.ts` while on server we add a `__TINY_FRONTEND_SSR__`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/root.tsx#L24) label.
+(It's a similar approach taken for [Styled Components with Remix](https://remix.run/docs/en/v1/guides/styling#css-in-js-libraries).)
+
+Finally, once we rendered, [we replace `__TINY_FRONTEND_SSR__`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.server.tsx#L24) in the output HTML string with whatever was returned by `loadExampleTinyFrontendServer`.
+
+Our Remix app is now loading that tiny frontend on the server and rendering it ✨!
+Let's see what we need to add to be able to rehydrate.
+
+#### On the client
+
+In [`entry.client.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.client.tsx#L6) by calling `loadExampleTinyFrontendClient` before rehydration.
+
+We then [use the client side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L6).
+
+And... That's it, we now have **fully working, independently deployed frontend component, with SSR and rehydration** 😱 !
+
+## Current known limitations
+
+:::tip
+Below is a list of limitations **I'm currently aware of** with the example Remix host.
+Contributions are welcome to help solve them, or to add new limitations to the list 😉 .
+:::
+
+##### The tiny frontend is loaded on every request.
+
+This one is easily overcome.
+You could implement a simple server side cache, and refresh the tiny frontend in the background every `X` minutes for example.
+I just haven't done it in this example.
+
+##### The tiny frontend is loaded for every route (on server and client), no matter if it used or not.
+
+This could potentially be fixed with a more involved implementation.
+We could for example imagine "collecting" rendered components on server on a route, and only loading those before client rehydration.
+
+However, this probably would require some new hooks in Remix like for async client side route transitions.
+
+##### The tiny frontend can't load its own data before SSR
+
+The tiny frontend might be able to provide some kind of data loader, but again this might require some hooks in Remix to call them at the right time.
+
+##### The tiny frontend can't declare its own routes
+
+As stated in the: [what tiny frontend isn't](about.md#🙅‍-what-tiny-frontend-isn-t) section, this is not something this approach is trying to solve at the moment.
+
+##### SSR doesn't work in Cloudflare Workers
+
+Sadly, Clouflare Workers doesn't provide [any way of loading JS dynamically at runtime](https://developers.cloudflare.com/workers/runtime-apis/web-standards#javascript-standards).
+This means this approach won't work in that environment for SSR 😢 .
