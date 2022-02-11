@@ -132,14 +132,14 @@ Then, when `React` will rehydrate the page, your tiny frontend will already be l
 :::warning
 Loading a tiny frontend on server side requires an environment that support runtime JS source evaluation (`new Function(source)`).
 
-This is currently [not supported on Cloudflare Workers](https://developers.cloudflare.com/workers/runtime-apis/web-standards#javascript-standards) (for security reason), therefore this won't work if you deploy your app to that platform.
+This is currently [not supported on Cloudflare Workers](https://developers.cloudflare.com/workers/runtime-apis/web-standards#javascript-standards) (for security reason), therefore this won't work if you deploy your host apps to that platform.
 
 You can however still use the client side only version in that case.
 :::
 
 ## Example Remix Host
 
-This is just regular Node.js Remix app that have the Example Tiny Frontend `contract` as an npm dependency.
+This is just regular Node.js Remix app [deployed on Fly.io](https://fly.io/) that have the Example Tiny Frontend `contract` as an npm dependency.
 
 As everything is better explained with a meme:
 
@@ -189,28 +189,38 @@ Below is a list of limitations **I'm currently aware of** with the example Remix
 Contributions are welcome to help solve them, or to add new limitations to the list 😉 .
 :::
 
-##### The tiny frontend is loaded on every request.
+#### 🔁  The tiny frontend is loaded on every request
 
 This one is easily overcome.
 You could implement a simple server side cache, and refresh the tiny frontend in the background every `X` minutes for example.
 I just haven't done it in this example.
 
-##### The tiny frontend is loaded for every route (on server and client), no matter if it used or not.
+#### 🗑  The tiny frontend is loaded for every route, no matter if it used or not
 
 This could potentially be fixed with a more involved implementation.
 We could for example imagine "collecting" rendered components on server on a route, and only loading those before client rehydration.
 
 However, this probably would require some new hooks in Remix like for async client side route transitions.
 
-##### The tiny frontend can't load its own data before SSR
+:::tip
+This could be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
+as a tiny frontend could be loaded as part of a Suspense boundary when a given route is rendered.
+:::
+
+#### 💿  The tiny frontend can't load its own data before SSR
 
 The tiny frontend might be able to provide some kind of data loader, but again this might require some hooks in Remix to call them at the right time.
 
-##### The tiny frontend can't declare its own routes
+:::tip
+This could also be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
+as a tiny frontend could use its own Suspense boundary to load its data when it's rendered.
+:::
+
+#### 🚏  The tiny frontend can't declare its own routes
 
 As stated in the: [what tiny frontend isn't](about.md#🙅‍-what-tiny-frontend-isn-t) section, this is not something this approach is trying to solve at the moment.
 
-##### SSR doesn't work in Cloudflare Workers
+#### ⛅️  SSR doesn't work in Cloudflare Workers
 
 Sadly, Clouflare Workers doesn't provide [any way of loading JS dynamically at runtime](https://developers.cloudflare.com/workers/runtime-apis/web-standards#javascript-standards).
 This means this approach won't work in that environment for SSR 😢 .
