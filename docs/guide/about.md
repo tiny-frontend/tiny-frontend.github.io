@@ -2,13 +2,13 @@
 
 ## Before we start
 
-### 👍 What tiny frontend is
+### 👍  What tiny frontend is
 
 - **a npm package** pulling its **latest deployed implementation** at **runtime**
 - An example of implementation of a micro frontend architecture
 - Aimed at solving "horizontal" slicing
 
-### 🙅‍ What tiny frontend isn't
+### 🙅‍  What tiny frontend isn't
 
 - The One True Way to micro frontend
 - Aimed at solving "vertical" slicing
@@ -21,19 +21,19 @@ This implementation is very inspired [by the architecture we are using at Cazoo]
 
 Here are a few guiding principles:
 
-- ⚛️ &nbsp; Use the framework (in this case React) as the runtime glue
-- 😌 &nbsp; Host shouldn't need anything special to consume a tiny frontend
-- 💪 &nbsp; Be typesafe
-- 👀 &nbsp; Ensure shared dependencies are compatible at build time
-- ✅ &nbsp; Automatic opt-in for non-breaking changes
-- 💥 &nbsp; Manual opt-in for breaking changes
+- ⚛️   Use the framework (in this case React) as the runtime glue
+- 😌   Host shouldn't need anything special to consume a tiny frontend
+- 💪   Be typesafe
+- 👀   Ensure shared dependencies are compatible at build time
+- ✅   Automatic opt-in for non-breaking changes
+- 💥   Manual opt-in for breaking changes
 
 ### When to use it
 
 This approach works well in an environment where teams have clear domain boundaries and own their whole stack.
 
 It is targeted at solving the "horizontal" slicing problem you can encounter in such environment:
-`Team A` wants to show a component on a page owned by `Team B`.
+`Team A` wants to show a component on a page owned by `Team B`.
 
 For example:
 - Consumer finance team wants to show a financing calculator on some marketing page
@@ -42,4 +42,4 @@ For example:
 - Content team deploys a Header and Footer used throughout apps on the site
 
 However, it doesn't aim at solving the "vertical" slicing problem:
-`Team A` and `Team B` own full apps on the domain, with client side navigation working between apps.
+`Team A` and `Team B` own full apps on the domain, with client side navigation working between apps.
