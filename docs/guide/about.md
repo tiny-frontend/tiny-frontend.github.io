@@ -37,8 +37,8 @@ It is targeted at solving the "horizontal" slicing problem you can encounter in 
 
 For example:
 - Consumer finance team wants to show a financing calculator on some marketing page
-- Payment team want to show a payment component in the Checkout flow
-- Logistics team want to let customer reschedule their order in the My Account section
+- Payment team wants to show a payment component in the Checkout flow
+- Logistics team wants to let customer reschedule their order in the My Account section
 - Content team deploys a Header and Footer used throughout apps on the site
 
 However, it doesn't aim at solving the "vertical" slicing problem:

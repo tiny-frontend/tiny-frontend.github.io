@@ -58,7 +58,17 @@ export default defineUserConfig<DefaultThemeOptions>({
         // navbar: navbar.en,
         //
         // // sidebar
-        // sidebar: sidebar.en,
+        sidebar: {
+          '/guide/': [
+            {
+              text: 'Guide',
+              children: [
+                '/guide/about.md',
+                '/guide/architecture.md',
+              ],
+            },
+          ],
+        },
 
         // page meta
         editLinkText: 'Edit this page on GitHub',
