@@ -65,6 +65,7 @@ export default defineUserConfig<DefaultThemeOptions>({
               children: [
                 '/guide/about.md',
                 '/guide/architecture.md',
+                '/guide/deploy.md',
               ],
             },
           ],
