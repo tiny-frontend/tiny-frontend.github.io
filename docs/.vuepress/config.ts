@@ -1,5 +1,5 @@
-import { defineUserConfig } from '@vuepress/cli'
-import type { DefaultThemeOptions } from '@vuepress/theme-default'
+import {defineUserConfig} from '@vuepress/cli'
+import type {DefaultThemeOptions} from '@vuepress/theme-default'
 // import { navbar, sidebar } from './configs'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -26,12 +26,12 @@ export default defineUserConfig<DefaultThemeOptions>({
         href: `/images/favicon-32x32.png`,
       },
     ],
-    ['link', { rel: 'manifest', href: '/manifest.webmanifest' }],
-    ['meta', { name: 'application-name', content: 'tiny frontend' }],
-    ['meta', { name: 'apple-mobile-web-app-title', content: 'tiny frontend' }],
+    ['link', {rel: 'manifest', href: '/manifest.webmanifest'}],
+    ['meta', {name: 'application-name', content: 'tiny frontend'}],
+    ['meta', {name: 'apple-mobile-web-app-title', content: 'tiny frontend'}],
     [
       'meta',
-      { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
+      {name: 'apple-mobile-web-app-status-bar-style', content: 'black'},
     ]
   ],
 
@@ -58,18 +58,12 @@ export default defineUserConfig<DefaultThemeOptions>({
         // navbar: navbar.en,
         //
         // // sidebar
-        sidebar: {
-          '/guide/': [
-            {
-              text: 'Guide',
-              children: [
-                '/guide/about.md',
-                '/guide/architecture.md',
-                '/guide/deploy.md',
-              ],
-            },
-          ],
-        },
+        sidebar: [
+          '/guide/about.md',
+          '/guide/architecture.md',
+          '/guide/deploy.md',
+          { text: 'Example Remix host', link: 'https://tiny-frontend-example-host-remix.fly.dev/' },
+        ],
 
         // page meta
         editLinkText: 'Edit this page on GitHub',

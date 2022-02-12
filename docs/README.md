@@ -3,7 +3,10 @@ home: true
 title: Home
 heroImage: /images/logo.png
 actions:
-- text: Let's get started 🐰 !
+- text: How does it work?
   link: /guide/about.html
   type: primary
+- text: View example Remix host
+  link: https://tiny-frontend-example-host-remix.fly.dev/
+  type: secondary
 ---
