@@ -200,10 +200,10 @@ I just haven't done it in this example.
 This could potentially be fixed with a more involved implementation.
 We could for example imagine "collecting" rendered components on server on a route, and only loading those before client rehydration.
 
-However, this probably would require some new hooks in Remix like for async client side route transitions.
+However, that solution probably would require some new hooks in Remix, for example async client side route transitions guards.
 
 :::tip
-This could be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
+This could also be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
 as a tiny frontend could be loaded as part of a Suspense boundary when a given route is rendered.
 :::
 
@@ -212,7 +212,7 @@ as a tiny frontend could be loaded as part of a Suspense boundary when a given r
 The tiny frontend might be able to provide some kind of data loader, but again this might require some hooks in Remix to call them at the right time.
 
 :::tip
-This could also be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
+Once again [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18 could save us here,
 as a tiny frontend could use its own Suspense boundary to load its data when it's rendered.
 :::
 
