@@ -8,6 +8,10 @@
 - An example of implementation of a micro frontend architecture
 - Aimed at solving "horizontal" slicing
 
+In one picture: we're trying to **deploy the pink boxes independently** of our Remix host app:
+
+![](/images/docs/horizontal-slicing.jpg)
+
 ### 🙅‍  What tiny frontend isn't
 
 - The One True Way to micro frontend

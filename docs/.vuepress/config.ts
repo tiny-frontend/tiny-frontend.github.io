@@ -40,7 +40,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     '/': {
       lang: 'en-US',
       title: 'tiny frontend',
-      description: 'Example micro frontend architecture',
+      description: 'Example micro frontend architecture using Remix',
     },
   },
 

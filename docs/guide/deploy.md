@@ -1,7 +1,7 @@
 # Deploy your own
 
 If you like this architecture and want to deploy your own, this guide is for you!
-You mostly to 3 things:
+You mostly to deploy 3 things:
 
 - A tiny frontend api to deploy your bundle to.
 
@@ -71,6 +71,7 @@ In the future, I'd like to have some kind of generator for this step instead of 
 ### Making changes to the tiny frontend
 
 Sure, my example component is ✨ Amazing ✨, but you probably want something different.
+Let's see how to change things.
 
 #### Running it locally
 
@@ -78,6 +79,7 @@ To let you work on your tiny frontend independently of any host, you can use the
 
 ```bash
 cd app
+npm i
 npm run dev
 ```
 
@@ -114,6 +116,7 @@ First, "publish" your `contract` on your machine:
 
 ```bash
 cd contract
+npm i
 npm run build
 npx yalc publish
 ```

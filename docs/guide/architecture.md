@@ -4,9 +4,9 @@
 
 Here is a diagram of the general architecture:
 
-![General architecture diagram](/images/docs/General-Architecture.jpg)
+![General architecture diagram](/images/docs/general-architecture.jpg)
 
-Each box with pink border is a GitHub repository.
+Each pink box is a GitHub repository.
 There are four of them:
 
 - [example tiny frontend](https://github.com/tiny-frontend/example-tiny-frontend): A simple micro frontend to be deployed and consumed
@@ -68,7 +68,7 @@ A tiny frontend api must have the two following endpoints:
 
 - `/tiny/bundle/{bundleName}` should respond with the source of the bundle with `bundleName`.
 
-In the case of this Cloudflare implementation, I use KV to store the source of the latest bundles and serves them at runtime.
+In the case of this Cloudflare implementation, we use KV to store the source of the latest bundles and serves them at runtime.
 
 :::tip
 You could write this API with whatever stack you want.
@@ -193,7 +193,7 @@ Contributions are welcome to help solve them, or to add new limitations to the l
 
 This one is easily overcome.
 You could implement a simple server side cache, and refresh the tiny frontend in the background every `X` minutes for example.
-I just haven't done it in this example.
+We just haven't done it in this example.
 
 #### 🗑  The tiny frontend is loaded for every route, no matter if it used or not
 
