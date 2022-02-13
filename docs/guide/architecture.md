@@ -149,7 +149,7 @@ As everything is better explained with a meme:
 
 ### Client side only
 
-To consume the example tiny frontend on client side, [we simply load it in a `useEffect`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/client-side-only.tsx#L20) by calling `loadExampleTinyFrontendClient` and passing the URL of our `tiny-api`.
+To consume the example tiny frontend on client side, [we simply load it in a `useEffect`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/client-side-only.tsx#L25) by calling `loadExampleTinyFrontendClient` and passing the URL of our `tiny-api`.
 
 While the tiny frontend is loading, we show a `Loading...` label.
 
@@ -164,9 +164,9 @@ This is a bit more involved, but still rather straightforward.
 
 In [`entry.server.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.server.tsx#L13) by calling `loadExampleTinyFrontendServer` before rendering happens.
 
-We then [use the server side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L6).
+We then [use the server side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L10).
 
-In [`root.ts` while on server we add a `__TINY_FRONTEND_SSR__`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/root.tsx#L24) label.
+In [`root.ts` while on server we add a `__TINY_FRONTEND_SSR__`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/root.tsx#L32) label.
 (It's a similar approach taken for [Styled Components with Remix](https://remix.run/docs/en/v1/guides/styling#css-in-js-libraries).)
 
 Finally, once we rendered, [we replace `__TINY_FRONTEND_SSR__`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.server.tsx#L24) in the output HTML string with whatever was returned by `loadExampleTinyFrontendServer`.
@@ -178,7 +178,7 @@ Let's see what we need to add to be able to rehydrate.
 
 In [`entry.client.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.client.tsx#L6) by calling `loadExampleTinyFrontendClient` before rehydration.
 
-We then [use the client side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L6).
+We then [use the client side loaded component in our Remix route](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/ssr.tsx#L10).
 
 And... That's it, we now have **fully working, independently deployed frontend component, with SSR and rehydration** 😱 !
 
