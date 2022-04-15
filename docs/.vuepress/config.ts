@@ -40,7 +40,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     '/': {
       lang: 'en-US',
       title: 'tiny frontend',
-      description: 'Example micro frontend architecture using Remix',
+      description: 'Example micro frontend architecture',
     },
   },
 
@@ -62,7 +62,8 @@ export default defineUserConfig<DefaultThemeOptions>({
           '/guide/about.md',
           '/guide/architecture.md',
           '/guide/deploy.md',
-          { text: 'Example Remix host', link: 'https://tiny-frontend-example-host-remix.fly.dev/' },
+          { text: 'Example Remix host', link: 'https://tiny-frontend-example-host-remix.fly.dev/', },
+          { text: 'Example Next.js host', link: 'https://example-host-nextjs.vercel.app/' },
         ],
 
         // page meta
