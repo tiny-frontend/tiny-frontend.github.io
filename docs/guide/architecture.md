@@ -11,7 +11,9 @@ There are four of them:
 
 - [example tiny frontend](https://github.com/tiny-frontend/example-tiny-frontend): A simple micro frontend to be deployed and consumed
 - [api-cloudflare](https://github.com/tiny-frontend/api-cloudflare): an API using Cloudflare Workers where the latest bundle for that micro frontend is deployed
-- [example-host-remix-node](https://github.com/tiny-frontend/example-host-remix-node): An example Remix app consuming that micro frontend
+- Example host:
+  - [example-host-remix-node](https://github.com/tiny-frontend/example-host-remix-node): An example Remix app consuming that micro frontend
+  - [example-host-nextjs](https://github.com/tiny-frontend/example-host-nextjs): An example Next.js app consuming that micro frontend
 - [tiny-client](https://github.com/tiny-frontend/tiny-client): A small library to consume the micro frontend at runtime
 
 ## Example Tiny Frontend
@@ -137,9 +139,14 @@ This is currently [not supported on Cloudflare Workers](https://developers.cloud
 You can however still use the client side only version in that case.
 :::
 
-## Example Remix Host
+## Example Hosts
 
-This is just regular Node.js Remix app [deployed on Fly.io](https://fly.io/) that have the Example Tiny Frontend `contract` as an npm dependency.
+There are two example hosts:
+
+- A [Remix app](https://github.com/tiny-frontend/example-host-remix-node) deployed on [Fly.io](https://fly.io/)
+- A [Next.js app](https://github.com/tiny-frontend/example-host-nextjs) deployed on [Vercel](https://vercel.com/)
+
+They both have the Example Tiny Frontend `contract` as an npm dependency.
 
 As everything is better explained with a meme:
 
@@ -147,7 +154,9 @@ As everything is better explained with a meme:
 <img alt="" src="/images/docs/consume-tiny-fe-meme.jpg" width="450" />
 </p>
 
-### Client side only
+### Remix
+
+#### Client side only
 
 To consume the example tiny frontend on client side, [we simply load it in a `useEffect`](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/routes/client-side-only.tsx#L25) by calling `loadExampleTinyFrontendClient` and passing the URL of our `tiny-api`.
 
@@ -156,11 +165,11 @@ While the tiny frontend is loading, we show a `Loading...` label.
 When the tiny frontend is loaded, we set the component we receive in a `useState`.
 We then simply renders it like any other `React` component 🐰 .
 
-### Server side (SSR) with client side rehydration
+#### Server side (SSR) with client side rehydration
 
 This is a bit more involved, but still rather straightforward.
 
-#### On the server
+##### On the server
 
 In [`entry.server.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.server.tsx#L13) by calling `loadExampleTinyFrontendServer` before rendering happens.
 
@@ -174,7 +183,7 @@ Finally, once we rendered, [we replace `__TINY_FRONTEND_SSR__`](https://github.c
 Our Remix app is now loading that tiny frontend on the server and rendering it ✨!
 Let's see what we need to add to be able to rehydrate.
 
-#### On the client
+##### On the client
 
 In [`entry.client.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-remix-node/blob/main/app/entry.client.tsx#L6) by calling `loadExampleTinyFrontendClient` before rehydration.
 
@@ -182,10 +191,44 @@ We then [use the client side loaded component in our Remix route](https://github
 
 And... That's it, we now have **fully working, independently deployed frontend component, with SSR and rehydration** 😱 !
 
+### Next.js
+
+#### Client side only
+
+To consume the example tiny frontend on client side, [we simply load it in a `useEffect`](https://github.com/tiny-frontend/example-host-nextjs/blob/main/pages/client-side-only.tsx#L27) by calling `loadExampleTinyFrontendClient` and passing the URL of our `tiny-api`.
+
+While the tiny frontend is loading, we show a `Loading...` label.
+
+When the tiny frontend is loaded, we set the component we receive in a `useState`.
+We then simply renders it like any other `React` component 🐰 .
+
+#### Server side (SSR) with client side rehydration
+
+This is a bit more involved, but still rather straightforward.
+
+##### On the server
+
+In [`_document.ts` we load the tiny frontend](https://github.com/tiny-frontend/example-host-nextjs/blob/main/pages/_document.tsx#L61) by calling `loadExampleTinyFrontendServer` before rendering happens.
+We also inject the JS and CSS script tags for the Tiny Frontend [in the document head](https://github.com/tiny-frontend/example-host-nextjs/blob/main/pages/_document.tsx#L28).
+
+We then [use the server side loaded component in our Next.js page](https://github.com/tiny-frontend/example-host-nextjs/blob/main/pages/ssr.tsx#L11).
+
+Our Next.js app is now loading that tiny frontend on the server and rendering it ✨!
+Let's see what we need to add to be able to rehydrate.
+
+##### On the client
+
+We create [a client side version of our component](https://github.com/tiny-frontend/example-host-nextjs/blob/main/components/ExampleTinyFrontend/ExampleTinyFrontend.client.tsx#L9) that can load itself on the client and suppresses hydration warnings using the [`withHydrationSuppress` HOC](https://github.com/tiny-frontend/tiny-client-react/blob/main/src/withHydrationSuppress.tsx#L16).
+This uses the same technique as [react-lazy-hydration](https://www.npmjs.com/package/react-lazy-hydration).
+
+We then [use the client side component in our Next.js page](https://github.com/tiny-frontend/example-host-nextjs/blob/main/pages/ssr.tsx#L11) when the Server side component is undefined.
+
+And... That's it, we now have **fully working, independently deployed frontend component, with SSR and rehydration** 😱 !
+
 ## Current known limitations
 
 :::tip
-Below is a list of limitations **I'm currently aware of** with the example Remix host.
+Below is a list of limitations **I'm currently aware of** with the example hosts.
 Contributions are welcome to help solve them, or to add new limitations to the list 😉 .
 :::
 
@@ -200,7 +243,7 @@ We just haven't done it in this example.
 This could potentially be fixed with a more involved implementation.
 We could for example imagine "collecting" rendered components on server on a route, and only loading those before client rehydration.
 
-However, that solution probably would require some new hooks in Remix, for example async client side route transitions guards.
+However, that solution probably would require some new hooks in Remix or Next.js, for example async client side route transitions guards.
 
 :::tip
 This could also be solved using [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18,
@@ -209,7 +252,7 @@ as a tiny frontend could be loaded as part of a Suspense boundary when a given r
 
 #### 💿  The tiny frontend can't load its own data before SSR
 
-The tiny frontend might be able to provide some kind of data loader, but again this might require some hooks in Remix to call them at the right time.
+The tiny frontend might be able to provide some kind of data loader, but again this might require some hooks in Remix or Next.js to call them at the right time.
 
 :::tip
 Once again [Suspense for data fetching on SSR](https://github.com/reactwg/react-18/discussions/37) in React 18 could save us here,
