@@ -18,10 +18,8 @@ features:
 - title: 🤝 Typesafe
   details: The npm package acts as a contract and provides types and peer dependencies requirements to the host.
 - title: ⚡️ SSR Support
-  details: Share components that require server side rendering, such as header and footer, across your organisation. 
+  details: Share components that require server side rendering, such as header and footer, across your organisation.
+footer: MIT Licensed | Made with ❤️ by <a href="https://twitter.com/BaronAdri" target="_blank">Adrien Baron</a>
+footerHtml: true
 ---
-
-<p style="text-align: center">
-MIT Licensed | Made with ❤️ by <a href="https://twitter.com/BaronAdri" target="_blank">Adrien Baron</a>
-</p>
 

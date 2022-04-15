@@ -1,6 +1,6 @@
 import {defineUserConfig} from '@vuepress/cli'
 import type {DefaultThemeOptions} from '@vuepress/theme-default'
-// import { navbar, sidebar } from './configs'
+import {path} from '@vuepress/utils'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -44,6 +44,8 @@ export default defineUserConfig<DefaultThemeOptions>({
     },
   },
 
+  theme: path.resolve(__dirname, './theme'),
+
   themeConfig: {
     logo: '/images/logo.png',
 
@@ -62,8 +64,8 @@ export default defineUserConfig<DefaultThemeOptions>({
           '/guide/about.md',
           '/guide/architecture.md',
           '/guide/deploy.md',
-          { text: 'Example Remix host', link: 'https://tiny-frontend-example-host-remix.fly.dev/', },
-          { text: 'Example Next.js host', link: 'https://example-host-nextjs.vercel.app/' },
+          {text: 'Example Remix host', link: 'https://tiny-frontend-example-host-remix.fly.dev/',},
+          {text: 'Example Next.js host', link: 'https://example-host-nextjs.vercel.app/'},
         ],
 
         // page meta
