@@ -139,6 +139,36 @@ This is currently [not supported on Cloudflare Workers](https://developers.cloud
 You can however still use the client side only version in that case.
 :::
 
+### Cache and Retry Policy
+
+Both `loadTinyFrontendClient` and `loadTinyFrontendServer` accept some `LoadingOptions`.
+
+#### `cacheTtlInMs`
+
+By default, tiny frontend will cache the latest fetched bundle in memory for 2 minutes.
+This means that for 2 minutes, all calls to `loadTinyFrontendClient` or `loadTinyFrontendServer` will return the same bundle even if there is a newer bundle deployed.
+
+There is a compromise to be had between speed of response, and speed of reflecting changes when new bundle are deployed.
+
+If you wish to change that behaviour you can pass the `cacheTtlInMs` loading option to alter it:
+
+- Passing `null` or `undefined` will cache for as long as your server is running and never fetch again.
+- Passing `0` will disable the cache (we will fetch the latest configuration for each request)
+- Passing any other number `X` will result in reusing the bundle in memory if it has been fetched less than `X` milliseconds ago.
+
+#### `retryPolicy`
+
+By default, tiny frontend won't retry if there is an error fetching either the name of the latest bundle from the API or its content, and just throw.
+
+If you want tiny frontend to automatically retry in case of errors, you can pass `retryPolicy` to the loading options:
+
+- `retryPolicy.maxRetries` maximum number of retries after the first failure (defaults to `0`).
+- `retryPolicy.delayInMs` delay between each retries in milliseconds. The delay will be doubled between each tried. For example for a delay of `100ms` and `3 retries`, it will do:
+  - Try once, **fails**. _Wait 100ms._
+  - First retry, **fails**. _Wait 200ms_
+  - Second retry, **fails**. _Wait 400ms_
+  - Third retry, **fails**. _Give up and throw error._
+
 ## Example Hosts
 
 There are two example hosts:
